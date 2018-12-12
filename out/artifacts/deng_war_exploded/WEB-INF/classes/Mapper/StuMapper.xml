@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dao.StuDao">
+    <select id="getCountStu" resultType="int">
+     SELECT COUNT(*) FROM student;
+    </select>
+
+    <select id="getStuById" resultType="Student">
+        select * from student where id=#{id};
+    </select>
+
+    <delete id="deleteStuById">
+        delete from student where id=#{id};
+    </delete>
+
+    <update id="UpDateStu" parameterType="Student">
+        update student set stuname=#{stuname},stuage=#{stuage},stusex=#{stusex},stumark=#{stumark} where id=#{id};
+    </update>
+
+    <insert id="AddStu" parameterType="Student">
+        insert into student values(null,#{stuname},#{stuage},#{stusex},#{stumark});
+    </insert>
+    
+    <select id="getCountStuByName" resultType="int">
+        SELECT COUNT(*) FROM student
+        <if test="stuname != null and stuname !=''">
+            where stuname like CONCAT('%','${stuname}','%')
+        </if>
+    </select>
+
+    <select id="getAll" resultType="Student">
+        select * from student limit #{pageNum},#{pageSize};
+    </select>
+
+    <select id="getAllByName" resultType="student">
+        select * from student
+        <if test="stuname != null and stuname !=''">
+            where stuname like CONCAT('%','${stuname}','%' )
+        </if>
+        limit #{pageNum},#{pageSize};
+    </select>
+</mapper>
